@@ -1,2 +1,2 @@
 # Final-Project
-A small clicker game in which you grow a reef, attracting new creatures as you upgrade the reef.
+A small Pokemon inspired clicker game in which you grow a reef, attracting new Pokemon as you upgrade the reef.
