@@ -165,7 +165,7 @@ def main():
             return
         # TEMPORARY CODE ENDS HERE
 
-        screen.fill(pygame.Color(0, 0, 0))
+        screen.fill(pygame.Color(74, 95, 141))
 
         for fish in total_fish:
             if fish.dx > 5 or fish.dx < -5 or fish.dx == 0:
