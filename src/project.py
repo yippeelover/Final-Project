@@ -23,7 +23,7 @@ profit = {
 total_fish = []
 
 fish_image = pygame.image.load('fish.png').convert_alpha()
-fish_size = 50 #THIS SHOULD BE THE SAME SIZE AS YOUR FISH SPRITE (square)
+fish_size = 150 #THIS SHOULD BE THE SAME SIZE AS YOUR FISH SPRITE (square)
 
 def mainButtonFunction():
     global points
