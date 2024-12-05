@@ -1,7 +1,3 @@
-# SPRITE SIZES:
-# Coral - 300px*300px -> needs a normal, hovered, and pressed variant
-# Fish - 50px*50px
-
 import pygame
 import random
 
@@ -14,7 +10,6 @@ objects = []
 points = 0
 
 # Temporary item names - counts how much you own of each item
-# You can add or remove as needed
 items_owned = {
     "test1": 0,
     "test2": 0,
@@ -59,11 +54,8 @@ class Fish():
 # MAIN BUTTON YOU WILL BE CLICKING (ex: coral from abyssrium)
 class MainButton():
     def __init__(self, pos=((screen.get_width()/2),(screen.get_height()/2)), size=(300,300)):
-        # Adjust position/size above ^^^ 
-        # Current position is in the center of screen || Size should be same as sprite
         self.pos = pos
         self.size = size
-        # TO-DO: Replace these colors with sprites
         self.image = {
             'normal': pygame.image.load("normal.png").convert_alpha(),
             'hover': pygame.image.load("hover.png").convert_alpha(),
@@ -88,7 +80,6 @@ class MainButton():
             else:
                 self.alreadyPressed = False
         
-        #screen.blit(self.buttonSurface, self.buttonRect)
 
 # TEMPLATE FOR ALL OF THE SHOP BUTTONS
 class ShopButton():
@@ -144,11 +135,6 @@ class ShopButton():
 
 MainButton()
 
-# HOW TO MAKE A SHOP BUTTON:
-# 1st section is its position | ex: (0,0) <- COORDINATE
-# 2nd section is the name of the item based on items_owned | ex: "test1" <- STRING
-# 3rd section is what the button will say | ex: "Test - $5" <- STRING
-# 4th section is the cost of the item | ex: 5
 ShopButton((0,0), "test1", "Test1 - $5", 5)
 ShopButton((0,120), "test2", "Test2 - $10", 10)
 
