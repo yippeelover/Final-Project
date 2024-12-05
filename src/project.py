@@ -1,3 +1,7 @@
+# SPRITE SIZES:
+# Coral - 300px*300px -> needs a normal, hovered, and pressed variant
+# Fish - 50px*50px
+
 import pygame
 import random
 
@@ -21,6 +25,10 @@ profit = {
     "test1": 5,
     "test2": 10,
 }
+total_fish = []
+
+fish_image = pygame.image.load('fish.png').convert_alpha()
+fish_size = 50 #THIS SHOULD BE THE SAME SIZE AS YOUR FISH SPRITE (square)
 
 def mainButtonFunction():
     global points
@@ -31,7 +39,22 @@ def buyFunction(cost, item):
     global items_owned
     points -= cost
     items_owned[item] += 1
-    print(items_owned)
+    fish = spawn_fish()
+    total_fish.append(fish)
+
+def spawn_fish():
+    fish = Fish()
+    fish.x = random.randrange(fish_size, screen.get_width() - fish_size)
+    fish.y = random.randrange(fish_size, screen.get_height() - fish_size)
+    fish.dx = random.randrange(-5, 5)
+    return fish
+
+class Fish():
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.dx = 1
+        self.direction = self.dx / abs(self.dx)
 
 # MAIN BUTTON YOU WILL BE CLICKING (ex: coral from abyssrium)
 class MainButton():
@@ -41,10 +64,10 @@ class MainButton():
         self.pos = pos
         self.size = size
         # TO-DO: Replace these colors with sprites
-        self.fillColors = {
-            'normal': (255,255,255),
-            'hover': (255,255,0),
-            'pressed': (255,0,0),
+        self.image = {
+            'normal': pygame.image.load("normal.png").convert_alpha(),
+            'hover': pygame.image.load("hover.png").convert_alpha(),
+            'pressed': pygame.image.load("pressed.png").convert_alpha(),
         }
         self.buttonSurface = pygame.Surface((self.size[0], self.size[1]))
         self.buttonRect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
@@ -53,19 +76,19 @@ class MainButton():
     
     def process(self):
         mousePos = pygame.mouse.get_pos()
-        self.buttonSurface.fill(self.fillColors['normal'])
+        screen.blit(self.image['normal'], self.buttonRect)
         
         if self.buttonRect.collidepoint(mousePos):
-            self.buttonSurface.fill(self.fillColors['hover'])
+            screen.blit(self.image['hover'], self.buttonRect)
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                self.buttonSurface.fill(self.fillColors['pressed'])
+                screen.blit(self.image['pressed'], self.buttonRect)
                 if not self.alreadyPressed:
                     mainButtonFunction()
                     self.alreadyPressed = True
             else:
                 self.alreadyPressed = False
         
-        screen.blit(self.buttonSurface, self.buttonRect)
+        #screen.blit(self.buttonSurface, self.buttonRect)
 
 # TEMPLATE FOR ALL OF THE SHOP BUTTONS
 class ShopButton():
@@ -157,6 +180,20 @@ def main():
         # TEMPORARY CODE ENDS HERE
 
         screen.fill(pygame.Color(0, 0, 0))
+
+        for fish in total_fish:
+            if fish.dx > 5 or fish.dx < -5 or fish.dx == 0:
+                fish.dx = random.randrange(-5,5)
+            fish.x += fish.dx
+ 
+            if fish.x > screen.get_width() + fish_size or fish.x < -(fish_size):
+                fish.dx *= -1*(random.uniform(0.5,1.5))
+                fish.y = random.randrange(fish_size, screen.get_height() - fish_size)
+
+            fish_image = pygame.image.load('fish.png').convert_alpha()
+            if fish.dx < 0:
+                fish_image = pygame.transform.flip(fish_image, True, False)
+            screen.blit(fish_image, [fish.x, fish.y])
 
         for object in objects:
             object.process()
